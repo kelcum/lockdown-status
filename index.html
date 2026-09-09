@@ -236,7 +236,9 @@ function renderTick() {
 
 async function pollNowPlaying() {
   try {
-    const res = await fetch(STATUS_URL, { cache: "no-store" });
+    // ngrok's free tier shows a browser-warning interstitial page instead of
+    // proxying the request unless this header is present.
+    const res = await fetch(STATUS_URL, { cache: "no-store", headers: { "ngrok-skip-browser-warning": "true" } });
     const data = await res.json();
 
     isPlaying = !!data.playing && !data.paused;
