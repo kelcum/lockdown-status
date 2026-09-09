@@ -3,27 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lockdown</title>
+<title>Wavelength</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0A0C08;
-    --bg-elevated: #12150F;
-    --text: #E9ECE2;
-    --text-dim: #7C8570;
-    --accent: #4ECB68;
-    --accent-dim: #2C4E36;
-    --border: #212619;
-    --track-bg: #1A1F15;
+    --bg: #050B13;
+    --bg-elevated: #0C1826;
+    --text: #EAF3FA;
+    --text-dim: #5E7996;
+    --accent: #55C6F2;
+    --accent-deep: #1B4B7A;
+    --accent-soft: #10222F;
+    --border: #16283A;
+    --track-bg: #101F2C;
   }
 
   * { box-sizing: border-box; }
 
   html, body {
     margin: 0;
-    height: 100%;
+    min-height: 100%;
     background: var(--bg);
     color: var(--text);
     font-family: "IBM Plex Mono", ui-monospace, monospace;
@@ -33,25 +34,25 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 32px 20px;
+    padding: 32px 20px 60px;
   }
 
   .frame {
     width: 100%;
-    max-width: 640px;
+    max-width: 680px;
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 28px;
   }
 
+  /* ── Header: wordmark + profile in the corner ── */
   .mark {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
   }
+  .mark-left { display: flex; flex-direction: column; gap: 4px; }
   .mark-name {
     font-size: 13px;
     font-weight: 600;
@@ -62,7 +63,7 @@
     display: flex;
     align-items: center;
     gap: 7px;
-    font-size: 12px;
+    font-size: 11px;
     letter-spacing: 0.05em;
     color: var(--text-dim);
   }
@@ -74,32 +75,64 @@
     box-shadow: 0 0 8px var(--accent);
   }
 
-  .quote-stage {
-    min-height: 190px;
+  .profile {
     display: flex;
     align-items: center;
+    gap: 10px;
+    padding: 6px 12px 6px 6px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 999px;
   }
+  .profile img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: block;
+    background: var(--track-bg);
+  }
+  .profile-name {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  /* ── Lockdown quote (secondary, still themed to this palette) ── */
+  .quote-stage { min-height: 130px; display: flex; align-items: center; }
   .quote {
     font-family: "Big Shoulders Display", ui-sans-serif, sans-serif;
     font-weight: 700;
-    font-size: clamp(30px, 6vw, 46px);
-    line-height: 1.08;
-    letter-spacing: 0.005em;
+    font-size: clamp(22px, 4.4vw, 32px);
+    line-height: 1.12;
+    color: var(--text-dim);
     text-wrap: balance;
     margin: 0;
     opacity: 1;
     transition: opacity 0.6s ease;
   }
   .quote.fade { opacity: 0; }
-  .quote::before { content: "“"; color: var(--accent); }
-  .quote::after { content: "”"; color: var(--accent); }
+  .quote::before, .quote::after { color: var(--accent); }
+  .quote::before { content: "“"; }
+  .quote::after { content: "”"; }
 
+  /* ── Now playing ── */
   .now-playing {
     border: 1px solid var(--border);
     background: var(--bg-elevated);
-    border-radius: 10px;
-    padding: 20px 22px;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    gap: 18px;
   }
+  .np-art {
+    width: 84px;
+    height: 84px;
+    border-radius: 8px;
+    background: var(--track-bg);
+    flex-shrink: 0;
+    object-fit: cover;
+  }
+  .np-body { flex: 1; min-width: 0; display: flex; flex-direction: column; }
   .np-label {
     font-size: 11px;
     letter-spacing: 0.16em;
@@ -107,60 +140,98 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
   }
   .np-label .dot { width: 6px; height: 6px; }
   .np-track {
     font-family: "Big Shoulders Display", ui-sans-serif, sans-serif;
     font-weight: 600;
-    font-size: 22px;
-    letter-spacing: 0.005em;
+    font-size: 21px;
+    line-height: 1.15;
     margin: 0 0 14px;
     text-wrap: balance;
   }
   .np-track.idle { color: var(--text-dim); font-family: "IBM Plex Mono", monospace; font-size: 14px; font-weight: 500; letter-spacing: 0.02em; }
 
-  .np-bar {
-    height: 4px;
-    border-radius: 2px;
-    background: var(--track-bg);
-    overflow: hidden;
-    margin-bottom: 8px;
-  }
-  .np-bar-fill {
-    height: 100%;
-    width: 0%;
-    background: var(--accent);
-    border-radius: 2px;
-    transition: width 0.9s linear;
-  }
-  .np-times {
+  .np-bar { height: 4px; border-radius: 2px; background: var(--track-bg); overflow: hidden; margin-bottom: 8px; }
+  .np-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-deep), var(--accent)); border-radius: 2px; transition: width 0.9s linear; }
+  .np-times { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-dim); font-variant-numeric: tabular-nums; margin-bottom: 14px; }
+
+  .listen-btn {
+    align-self: flex-start;
     display: flex;
-    justify-content: space-between;
-    font-size: 12px;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-deep);
+    color: var(--accent);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    padding: 8px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .listen-btn:hover { background: var(--accent-deep); color: var(--text); }
+  .listen-btn:disabled { opacity: 0.4; cursor: default; }
+  .listen-btn .pulse {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  .listen-btn.live .pulse { display: block; }
+  .listen-btn .pulse { display: none; }
+  @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+  /* ── Lyrics ── */
+  .lyrics {
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    border-radius: 12px;
+    padding: 20px 22px;
+    display: none;
+  }
+  .lyrics.show { display: block; }
+  .lyrics-label { font-size: 11px; letter-spacing: 0.16em; color: var(--text-dim); margin-bottom: 14px; }
+  .lyrics-lines { display: flex; flex-direction: column; gap: 10px; }
+  .lyric-line {
+    font-size: 15px;
     color: var(--text-dim);
-    font-variant-numeric: tabular-nums;
+    transition: color 0.3s ease, font-size 0.3s ease, transform 0.3s ease;
+    text-wrap: balance;
+  }
+  .lyric-line.current {
+    color: var(--text);
+    font-family: "Big Shoulders Display", ui-sans-serif, sans-serif;
+    font-weight: 600;
+    font-size: 21px;
   }
 
-  footer {
-    text-align: center;
-    font-size: 11px;
-    color: var(--text-dim);
-    letter-spacing: 0.04em;
-  }
-  footer a { color: var(--text-dim); }
+  footer { text-align: center; font-size: 11px; color: var(--text-dim); letter-spacing: 0.04em; }
 
   @media (prefers-reduced-motion: reduce) {
-    .quote { transition: none; }
-    .np-bar-fill { transition: none; }
+    .quote, .np-bar-fill, .lyric-line { transition: none; }
+    .listen-btn .pulse { animation: none; }
+  }
+
+  @media (max-width: 480px) {
+    .now-playing { flex-direction: column; }
+    .np-art { width: 100%; height: 160px; }
   }
 </style>
 </head>
 <body>
   <div class="frame">
     <div class="mark">
-      <span class="mark-name">LOCKDOWN</span>
-      <span class="mark-status"><span class="dot"></span>ONLINE</span>
+      <div class="mark-left">
+        <span class="mark-name">WAVELENGTH</span>
+        <span class="mark-status"><span class="dot"></span>ONLINE</span>
+      </div>
+      <div class="profile" id="profile" style="display:none;">
+        <img id="profile-avatar" alt="">
+        <span class="profile-name" id="profile-name"></span>
+      </div>
     </div>
 
     <div class="quote-stage">
@@ -168,10 +239,21 @@
     </div>
 
     <div class="now-playing">
-      <div class="np-label"><span class="dot" id="np-dot" style="background:var(--text-dim);box-shadow:none;"></span><span id="np-label-text">NOW PLAYING — WAVELENGTH</span></div>
-      <p class="np-track idle" id="np-track">Nothing playing right now.</p>
-      <div class="np-bar"><div class="np-bar-fill" id="np-fill"></div></div>
-      <div class="np-times"><span id="np-elapsed">0:00</span><span id="np-duration">0:00</span></div>
+      <img class="np-art" id="np-art" src="" alt="" style="display:none;">
+      <div class="np-body">
+        <div class="np-label"><span class="dot" id="np-dot" style="background:var(--text-dim);box-shadow:none;"></span><span>NOW PLAYING</span></div>
+        <p class="np-track idle" id="np-track">Nothing playing right now.</p>
+        <div class="np-bar"><div class="np-bar-fill" id="np-fill"></div></div>
+        <div class="np-times"><span id="np-elapsed">0:00</span><span id="np-duration">0:00</span></div>
+        <button class="listen-btn" id="listen-btn" disabled><span class="pulse"></span><span id="listen-btn-text">Listen Live</span></button>
+      </div>
+    </div>
+
+    <audio id="relay-audio" preload="none"></audio>
+
+    <div class="lyrics" id="lyrics">
+      <div class="lyrics-label">LIVE LYRICS</div>
+      <div class="lyrics-lines" id="lyrics-lines"></div>
     </div>
 
     <footer>k3 / kochajacy</footer>
@@ -206,20 +288,31 @@ function rotateQuote() {
 }
 setInterval(rotateQuote, 8000);
 
-// ── Now playing (Wavelength, via the ngrok tunnel to bot.py's local API) ──
-const STATUS_URL = "https://pond-grievance-implosion.ngrok-free.dev/nowplaying";
+// ── Live status (Wavelength, via the ngrok tunnel to bot.py's local API) ──
+const BASE_URL = "https://pond-grievance-implosion.ngrok-free.dev";
+const STATUS_URL = BASE_URL + "/nowplaying";
+const STREAM_URL = BASE_URL + "/stream.mp3";
 const POLL_MS = 8000;
 
 const npDot = document.getElementById("np-dot");
+const npArt = document.getElementById("np-art");
 const npTrack = document.getElementById("np-track");
 const npFill = document.getElementById("np-fill");
 const npElapsed = document.getElementById("np-elapsed");
 const npDuration = document.getElementById("np-duration");
+const listenBtn = document.getElementById("listen-btn");
+const listenBtnText = document.getElementById("listen-btn-text");
+const lyricsBox = document.getElementById("lyrics");
+const lyricsLines = document.getElementById("lyrics-lines");
+const profileBox = document.getElementById("profile");
+const profileAvatar = document.getElementById("profile-avatar");
+const profileName = document.getElementById("profile-name");
 
 let liveElapsed = 0;
 let liveDuration = 0;
 let isPlaying = false;
-let tickHandle = null;
+let currentLyrics = null;
+let profileLoaded = false;
 
 function fmt(seconds) {
   seconds = Math.max(0, Math.floor(seconds || 0));
@@ -228,51 +321,155 @@ function fmt(seconds) {
   return `${m}:${String(s).padStart(2, "0")}`;
 }
 
+function renderLyrics(position) {
+  if (!currentLyrics || !currentLyrics.length) {
+    lyricsBox.classList.remove("show");
+    return;
+  }
+  lyricsBox.classList.add("show");
+
+  let idx = -1;
+  for (let i = 0; i < currentLyrics.length; i++) {
+    if (currentLyrics[i].time <= position) idx = i; else break;
+  }
+  if (idx === -1) { lyricsLines.innerHTML = ""; return; }
+
+  const lo = Math.max(0, idx - 2);
+  const hi = Math.min(currentLyrics.length, idx + 3);
+  lyricsLines.innerHTML = "";
+  for (let i = lo; i < hi; i++) {
+    const div = document.createElement("div");
+    div.className = "lyric-line" + (i === idx ? " current" : "");
+    div.textContent = currentLyrics[i].text || " ";
+    lyricsLines.appendChild(div);
+  }
+}
+
 function renderTick() {
   npElapsed.textContent = fmt(liveElapsed);
   npDuration.textContent = fmt(liveDuration);
   npFill.style.width = liveDuration > 0 ? `${Math.min(100, (liveElapsed / liveDuration) * 100)}%` : "0%";
+  renderLyrics(liveElapsed);
 }
 
 async function pollNowPlaying() {
   try {
-    // ngrok's free tier shows a browser-warning interstitial page instead of
-    // proxying the request unless this header is present.
     const res = await fetch(STATUS_URL, { cache: "no-store", headers: { "ngrok-skip-browser-warning": "true" } });
     const data = await res.json();
 
     isPlaying = !!data.playing && !data.paused;
     npDot.style.background = data.playing ? "var(--accent)" : "var(--text-dim)";
     npDot.style.boxShadow = data.playing ? "0 0 8px var(--accent)" : "none";
+    listenBtn.disabled = !data.playing;
 
     if (data.title) {
       npTrack.textContent = data.title;
       npTrack.classList.remove("idle");
       liveElapsed = data.elapsed || 0;
       liveDuration = data.duration || 0;
+      if (data.thumbnail) { npArt.src = data.thumbnail; npArt.style.display = "block"; }
+      else { npArt.style.display = "none"; }
     } else {
       npTrack.textContent = "Nothing playing right now.";
       npTrack.classList.add("idle");
       liveElapsed = 0;
       liveDuration = 0;
       isPlaying = false;
+      npArt.style.display = "none";
     }
+
+    currentLyrics = data.lyrics || null;
     renderTick();
+
+    if (!profileLoaded && data.owner) {
+      profileLoaded = true;
+      profileAvatar.src = data.owner.avatar;
+      profileName.textContent = data.owner.name;
+      profileBox.style.display = "flex";
+    }
   } catch (e) {
     npTrack.textContent = "Status unavailable.";
     npTrack.classList.add("idle");
   }
 }
 
-if (!tickHandle) {
-  tickHandle = setInterval(() => {
-    if (isPlaying) liveElapsed += 1;
-    renderTick();
-  }, 1000);
-}
+setInterval(() => {
+  if (isPlaying) liveElapsed += 1;
+  renderTick();
+}, 1000);
 
 pollNowPlaying();
 setInterval(pollNowPlaying, POLL_MS);
+
+// ── Listen Live: MediaSource Extensions, because <audio src> can't send
+// the custom header ngrok's free tier needs to skip its browser-warning
+// interstitial (only fetch() can set that) ──
+const audioEl = document.getElementById("relay-audio");
+let mediaSource = null;
+let sourceBuffer = null;
+let streamReader = null;
+let isLive = false;
+
+async function pumpChunks() {
+  while (isLive) {
+    let result;
+    try {
+      result = await streamReader.read();
+    } catch (e) {
+      break;
+    }
+    if (result.done) break;
+    await new Promise((resolve) => {
+      if (sourceBuffer.updating) {
+        sourceBuffer.addEventListener("updateend", resolve, { once: true });
+      } else {
+        resolve();
+      }
+    });
+    try {
+      sourceBuffer.appendBuffer(result.value);
+    } catch (e) {
+      break;
+    }
+  }
+}
+
+async function startListening() {
+  if (!("MediaSource" in window) || !MediaSource.isTypeSupported("audio/mpeg")) {
+    listenBtnText.textContent = "Not supported here";
+    listenBtn.disabled = true;
+    return;
+  }
+
+  listenBtnText.textContent = "Connecting…";
+  mediaSource = new MediaSource();
+  audioEl.src = URL.createObjectURL(mediaSource);
+
+  mediaSource.addEventListener("sourceopen", async () => {
+    sourceBuffer = mediaSource.addSourceBuffer("audio/mpeg");
+    const res = await fetch(STREAM_URL, { headers: { "ngrok-skip-browser-warning": "true" } });
+    streamReader = res.body.getReader();
+    isLive = true;
+    pumpChunks();
+    await audioEl.play();
+    listenBtn.classList.add("live");
+    listenBtnText.textContent = "Stop Listening";
+  }, { once: true });
+}
+
+function stopListening() {
+  isLive = false;
+  audioEl.pause();
+  audioEl.removeAttribute("src");
+  audioEl.load();
+  if (streamReader) { streamReader.cancel().catch(() => {}); streamReader = null; }
+  listenBtn.classList.remove("live");
+  listenBtnText.textContent = "Listen Live";
+}
+
+listenBtn.addEventListener("click", () => {
+  if (isLive) stopListening(); else startListening();
+});
 </script>
 </body>
 </html>
