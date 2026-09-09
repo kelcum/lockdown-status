@@ -239,6 +239,54 @@
     font-size: 21px;
   }
 
+  /* ── Invite cards ── */
+  .invites-label { font-size: 11px; letter-spacing: 0.16em; color: var(--text-dim); margin-bottom: 12px; }
+  .invite-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+  .invite-card {
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .invite-head { display: flex; align-items: center; gap: 10px; }
+  .invite-icon { width: 34px; height: 34px; border-radius: 8px; display: block; background: var(--track-bg); }
+  .invite-name {
+    font-family: "Big Shoulders Display", ui-sans-serif, sans-serif;
+    font-weight: 600;
+    font-size: 19px;
+  }
+  .invite-desc { font-size: 12.5px; color: var(--text-dim); line-height: 1.5; margin: 0; flex: 1; }
+  .invite-btn {
+    text-align: center;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-deep);
+    color: var(--accent);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    padding: 9px 14px;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+  .invite-btn:hover { background: var(--accent-deep); color: var(--text); }
+  .invite-contact {
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-dim);
+    text-decoration: none;
+  }
+  .invite-contact:hover { color: var(--accent); }
+
+  @media (max-width: 480px) {
+    .invite-grid { grid-template-columns: 1fr; }
+  }
+
   footer { text-align: center; font-size: 11px; color: var(--text-dim); letter-spacing: 0.04em; }
 
   @media (prefers-reduced-motion: reduce) {
@@ -307,6 +355,29 @@
     <div class="lyrics" id="lyrics">
       <div class="lyrics-label">LIVE LYRICS</div>
       <div class="lyrics-lines" id="lyrics-lines"></div>
+    </div>
+
+    <div class="invites">
+      <div class="invites-label">GET THE BOTS</div>
+      <div class="invite-grid">
+        <div class="invite-card">
+          <div class="invite-head">
+            <img src="https://cdn.discordapp.com/app-icons/1543028384215474206/8ad2fcba0b5a965e719d9131ebac6805.png" alt="" class="invite-icon">
+            <span class="invite-name">Lockdown</span>
+          </div>
+          <p class="invite-desc">Moderation, economy, tickets, giveaways, server setup tools, and a cold AI chat personality.</p>
+          <a class="invite-btn" href="https://discord.com/oauth2/authorize?client_id=1543028384215474206&permissions=1374795721798&scope=bot+applications.commands" target="_blank" rel="noopener">Add to Server</a>
+        </div>
+        <div class="invite-card">
+          <div class="invite-head">
+            <img src="https://cdn.discordapp.com/app-icons/1545520920704319518/8610c3c9b160fadf4b4e19875b65006c.png" alt="" class="invite-icon">
+            <span class="invite-name">Wavelength</span>
+          </div>
+          <p class="invite-desc">24/7 voice bot — YouTube/Spotify playback, live synced lyrics, a real queue, and this page.</p>
+          <a class="invite-btn" href="https://discord.com/oauth2/authorize?client_id=1545520920704319518&permissions=36817984&scope=bot+applications.commands" target="_blank" rel="noopener">Add to Server</a>
+        </div>
+      </div>
+      <a class="invite-contact" href="https://discord.com/users/195516525631897600" target="_blank" rel="noopener">Questions? Message @kochajacy on Discord →</a>
     </div>
 
     <footer>k3 / kochajacy</footer>
