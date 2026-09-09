@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lockdown Privacy</title>
+<meta name="description" content="Privacy Policy for the Lockdown Discord bot.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0C08;
+    --bg-elevated: #12150F;
+    --text: #E9ECE2;
+    --text-muted: #8B9382;
+    --accent: #4ECB68;
+    --accent-soft: #16241A;
+    --border: #22271C;
+    --tag-bg: #171B12;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.65;
+  }
+
+  .sheet {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 56px 24px 80px;
+  }
+
+  .stamp {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--accent);
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+  .stamp-left { display: flex; align-items: baseline; gap: 10px; }
+  .stamp-mark {
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 3px 8px;
+    border-radius: 3px;
+  }
+  .stamp-name {
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 0.02em;
+  }
+  .stamp-meta {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    text-align: right;
+  }
+
+  h1 {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+    margin: 0 0 6px;
+  }
+  .subhead {
+    color: var(--text-muted);
+    font-size: 15px;
+    margin: 0 0 40px;
+  }
+
+  section { margin-bottom: 34px; }
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .sec-tag {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent);
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    padding: 2px 7px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  h2 {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0;
+    text-wrap: balance;
+  }
+  section p, section li {
+    font-size: 15.5px;
+    color: var(--text);
+    max-width: 62ch;
+  }
+  section p { margin: 0 0 12px; }
+  section ul { margin: 0 0 12px; padding-left: 22px; }
+  section li { margin-bottom: 6px; }
+  strong { font-weight: 600; }
+  .muted { color: var(--text-muted); }
+
+  code {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.9em;
+    background: var(--tag-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 16px;
+    font-size: 14.5px;
+  }
+  .data-table th {
+    text-align: left;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    padding: 0 10px 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 9px 10px 9px 0;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+
+  a { color: var(--accent); }
+
+  .signoff {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--border);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .signoff a { color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+  <div class="stamp">
+    <div class="stamp-left">
+      <span class="stamp-mark">DOC · PRIV-01</span>
+      <span class="stamp-name">LOCKDOWN</span>
+    </div>
+    <div class="stamp-meta">EFFECTIVE<br>2026-09-10</div>
+  </div>
+
+  <h1>Privacy Policy</h1>
+  <p class="subhead">This describes what data the Lockdown Discord bot ("Lockdown," "the bot") collects, why, and how it's handled.</p>
+
+  <section>
+    <div class="sec-head"><span class="sec-tag">§ 01</span><h2>What Gets Collected</h2></div>
+    <p>Lockdown only collects what a given command or feature needs to work:</p>
+    <table class="data-table">
+      <tr><th>Data</th><th>Why</th></tr>
+      <tr><td>Discord user &amp; server IDs</td><td>Required by Discord's API for every command; used to attribute actions and settings to the right person/server.</td></tr>
+      <tr><td>Message content (specific commands only)</td><td>Only when you directly use a command that needs it — e.g. talking to the AI chat feature, or content you submit to a moderation/case-log command.</td></tr>
+      <tr><td>Economy balances &amp; inventory</td><td>Powers the bot's economy commands (balance, shop, etc.).</td></tr>
+      <tr><td>Moderation records (warns, cases, tickets)</td><td>Server moderation history, visible to that server's staff.</td></tr>
+      <tr><td>Whitelist / staff role lists</td><td>Tracks who has elevated command access.</td></tr>
+    </table>
+    <p class="muted">Lockdown does not read or log ordinary server messages it isn't directly commanded to act on.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-tag">§ 02</span><h2>Third-Party Processing</h2></div>
+    <p>A few features send your input to a third-party API to work:</p>
+    <ul>
+      <li><strong>AI chat</strong> — messages you send to the bot's chat feature are sent to Groq's API to generate a reply. They are not sold or used for anything beyond producing that reply.</li>
+      <li><strong>Music/profile lookups</strong> — commands that pull data from services like Last.fm send only the username or query you provide.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-tag">§ 03</span><h2>Storage &amp; Retention</h2></div>
+    <p>Data is stored locally on the server Lockdown runs on (not sold, shared, or handed to advertisers). It's kept for as long as it's useful to the feature it belongs to — e.g. your economy balance persists until you ask for it to be reset; moderation logs persist per that server's own retention needs.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-tag">§ 04</span><h2>Restricted Lookup Tools</h2></div>
+    <p>Lockdown includes owner-only administrative and diagnostic tools that aren't exposed to server members or staff. These exist for the operator's own security/administrative use and are not used to look up ordinary members on request.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-tag">§ 05</span><h2>Your Rights</h2></div>
+    <p>You can ask for your data (economy balance, whitelist entries, stored preferences) to be shown or deleted at any time by contacting the developer — see below.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-tag">§ 06</span><h2>Children's Privacy</h2></div>
+    <p>Lockdown is intended for use in accordance with Discord's own Terms of Service, which require users to be at least the minimum age set by Discord. It does not knowingly collect data from users below that age.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-tag">§ 07</span><h2>Changes to This Policy</h2></div>
+    <p>This policy may be updated as Lockdown's features change. Material changes will be reflected here with an updated effective date.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-tag">§ 08</span><h2>Contact</h2></div>
+    <p>Data requests or privacy questions can be sent to the developer on Discord: <code>@kochajacy</code>.</p>
+  </section>
+
+  <div class="signoff">
+    <span>LOCKDOWN / PRIV-01</span>
+    <span><a href="../terms/">see also: Terms of Service</a></span>
+  </div>
+</div>
+
+</body>
+</html>
