@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lockdown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0C08;
+    --bg-elevated: #12150F;
+    --text: #E9ECE2;
+    --text-dim: #7C8570;
+    --accent: #4ECB68;
+    --accent-dim: #2C4E36;
+    --border: #212619;
+    --track-bg: #1A1F15;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 32px 20px;
+  }
+
+  .frame {
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .mark {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .mark-name {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: var(--text-dim);
+  }
+  .mark-status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  .quote-stage {
+    min-height: 190px;
+    display: flex;
+    align-items: center;
+  }
+  .quote {
+    font-family: "Big Shoulders Display", ui-sans-serif, sans-serif;
+    font-weight: 700;
+    font-size: clamp(30px, 6vw, 46px);
+    line-height: 1.08;
+    letter-spacing: 0.005em;
+    text-wrap: balance;
+    margin: 0;
+    opacity: 1;
+    transition: opacity 0.6s ease;
+  }
+  .quote.fade { opacity: 0; }
+  .quote::before { content: "“"; color: var(--accent); }
+  .quote::after { content: "”"; color: var(--accent); }
+
+  .now-playing {
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    border-radius: 10px;
+    padding: 20px 22px;
+  }
+  .np-label {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .np-label .dot { width: 6px; height: 6px; }
+  .np-track {
+    font-family: "Big Shoulders Display", ui-sans-serif, sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: 0.005em;
+    margin: 0 0 14px;
+    text-wrap: balance;
+  }
+  .np-track.idle { color: var(--text-dim); font-family: "IBM Plex Mono", monospace; font-size: 14px; font-weight: 500; letter-spacing: 0.02em; }
+
+  .np-bar {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--track-bg);
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .np-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.9s linear;
+  }
+  .np-times {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-dim);
+    font-variant-numeric: tabular-nums;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+  }
+  footer a { color: var(--text-dim); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .quote { transition: none; }
+    .np-bar-fill { transition: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="frame">
+    <div class="mark">
+      <span class="mark-name">LOCKDOWN</span>
+      <span class="mark-status"><span class="dot"></span>ONLINE</span>
+    </div>
+
+    <div class="quote-stage">
+      <p class="quote" id="quote">Every fugitive thinks they're the exception. None of them are.</p>
+    </div>
+
+    <div class="now-playing">
+      <div class="np-label"><span class="dot" id="np-dot" style="background:var(--text-dim);box-shadow:none;"></span><span id="np-label-text">NOW PLAYING — WAVELENGTH</span></div>
+      <p class="np-track idle" id="np-track">Nothing playing right now.</p>
+      <div class="np-bar"><div class="np-bar-fill" id="np-fill"></div></div>
+      <div class="np-times"><span id="np-elapsed">0:00</span><span id="np-duration">0:00</span></div>
+    </div>
+
+    <footer>k3 / kochajacy</footer>
+  </div>
+
+<script>
+const QUOTES = [
+  "Every fugitive thinks they're the exception. None of them are.",
+  "I don't do mercy. Mercy doesn't pay.",
+  "You can run. It just means I get paid for the extra mileage.",
+  "Loyalty's a currency. I only deal in the kind that doesn't devalue.",
+  "There's no such thing as hiding — only the length of the search.",
+  "I've never lost a bounty. I've just occasionally been patient.",
+  "Fear is a resource. I collect that too.",
+  "The job doesn't need my opinion. It needs results.",
+  "Negotiation ended the moment you ran.",
+  "I don't chase. I close distance.",
+  "Every target believes they're smarter than the last one I caught. They weren't.",
+  "Cold isn't the absence of feeling. It's the refusal to let it slow you down.",
+];
+
+const quoteEl = document.getElementById("quote");
+let quoteIdx = Math.floor(Math.random() * QUOTES.length);
+
+function rotateQuote() {
+  quoteEl.classList.add("fade");
+  setTimeout(() => {
+    quoteIdx = (quoteIdx + 1) % QUOTES.length;
+    quoteEl.textContent = QUOTES[quoteIdx];
+    quoteEl.classList.remove("fade");
+  }, 600);
+}
+setInterval(rotateQuote, 8000);
+
+// ── Now playing (Wavelength, via the ngrok tunnel to bot.py's local API) ──
+const STATUS_URL = "https://pond-grievance-implosion.ngrok-free.dev/nowplaying";
+const POLL_MS = 8000;
+
+const npDot = document.getElementById("np-dot");
+const npTrack = document.getElementById("np-track");
+const npFill = document.getElementById("np-fill");
+const npElapsed = document.getElementById("np-elapsed");
+const npDuration = document.getElementById("np-duration");
+
+let liveElapsed = 0;
+let liveDuration = 0;
+let isPlaying = false;
+let tickHandle = null;
+
+function fmt(seconds) {
+  seconds = Math.max(0, Math.floor(seconds || 0));
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${String(s).padStart(2, "0")}`;
+}
+
+function renderTick() {
+  npElapsed.textContent = fmt(liveElapsed);
+  npDuration.textContent = fmt(liveDuration);
+  npFill.style.width = liveDuration > 0 ? `${Math.min(100, (liveElapsed / liveDuration) * 100)}%` : "0%";
+}
+
+async function pollNowPlaying() {
+  try {
+    const res = await fetch(STATUS_URL, { cache: "no-store" });
+    const data = await res.json();
+
+    isPlaying = !!data.playing && !data.paused;
+    npDot.style.background = data.playing ? "var(--accent)" : "var(--text-dim)";
+    npDot.style.boxShadow = data.playing ? "0 0 8px var(--accent)" : "none";
+
+    if (data.title) {
+      npTrack.textContent = data.title;
+      npTrack.classList.remove("idle");
+      liveElapsed = data.elapsed || 0;
+      liveDuration = data.duration || 0;
+    } else {
+      npTrack.textContent = "Nothing playing right now.";
+      npTrack.classList.add("idle");
+      liveElapsed = 0;
+      liveDuration = 0;
+      isPlaying = false;
+    }
+    renderTick();
+  } catch (e) {
+    npTrack.textContent = "Status unavailable.";
+    npTrack.classList.add("idle");
+  }
+}
+
+if (!tickHandle) {
+  tickHandle = setInterval(() => {
+    if (isPlaying) liveElapsed += 1;
+    renderTick();
+  }, 1000);
+}
+
+pollNowPlaying();
+setInterval(pollNowPlaying, POLL_MS);
+</script>
+</body>
+</html>
