@@ -69,11 +69,15 @@
   .frame {
     position: relative;
     z-index: 1;
-    width: 100%;
+    flex: 1;
+    min-width: 0;
     max-width: 680px;
     display: flex;
     flex-direction: column;
     gap: 28px;
+  }
+  @media (max-width: 860px) {
+    .frame { max-width: 100%; }
   }
 
   /* ── Header: wordmark + profile in the corner ── */
@@ -106,26 +110,132 @@
     box-shadow: 0 0 8px var(--accent);
   }
 
-  .profile {
+  /* ── Page layout: profile sidebar (left) + main column ── */
+  .page {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 960px;
     display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 6px 12px 6px 6px;
-    background: var(--bg-elevated);
-    border: 1px solid var(--border);
-    border-radius: 999px;
+    align-items: flex-start;
+    gap: 28px;
   }
-  .profile img {
-    width: 30px;
-    height: 30px;
+
+  /* ── Profile sidebar ── */
+  .side-profile {
+    width: 220px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .side-avatar-wrap {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 2px;
+  }
+  .side-avatar {
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
     display: block;
     background: var(--track-bg);
   }
-  .profile-name {
+  .side-decoration {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 84px;
+    height: 84px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .side-name {
+    font-family: "Big Shoulders Display", ui-sans-serif, sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--text);
+  }
+  .side-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--text-dim);
+    text-transform: capitalize;
+  }
+  .side-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--text-dim);
+    flex-shrink: 0;
+  }
+  .side-bio {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--text-dim);
+    margin: 2px 0 0;
+  }
+  .side-activity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 4px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .side-activity-art {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    background: var(--track-bg);
+    flex-shrink: 0;
+    object-fit: cover;
+  }
+  .side-activity-body { min-width: 0; }
+  .side-activity-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    margin-bottom: 2px;
+  }
+  .side-activity-title {
     font-size: 12.5px;
     font-weight: 500;
     color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .side-activity-sub {
+    font-size: 11.5px;
+    color: var(--text-dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media (max-width: 860px) {
+    .page { flex-direction: column; }
+    .side-profile {
+      width: 100%;
+      position: static;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .side-bio, .side-activity { width: 100%; }
   }
 
   /* ── Lockdown quote (secondary, still themed to this palette) ── */
@@ -326,15 +436,37 @@
 ⡇⣯⣿⣿⣿⣾⣿⣿⣿⠿⠟⡡⢞⣹⠾⢻⣚⣛⢺⠞⢋⣭⣾⣧⡃⢄⡈⢿⣿⣿⣿⣿⣿⣿⣯⣿⣮⣽⣿⣿⣿⣿⣷⣬⣽⣿⣿⣿⣽⡿⣿⡿⠟⠋⢀⣀⣐⣺⣿⣿⣟⣫⣭⣿⣿
 ⢳⣿⣿⣿⣿⣿⣿⣿⣿⣤⣿⣿⣿⣿⣿⣦⠒⠉⢁⡀⠀⣙⣛⢿⣷⣶⣅⠀⠙⠻⣿⣿⣿⣿⣟⡚⠛⠻⠞⠿⠿⡿⡿⠯⠁⠟⣊⠾⠝⢋⣁⣀⣤⣤⣿⣿⣿⡿⠿⠿⠻⠛⠻⠻⠿
 ⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣐⣾⡿⡟⢶⠾⢋⢹⠿⢿⣿⣿⣷⣦⡈⠙⠛⠿⠿⢿⣶⣶⣶⣶⣶⢶⠟⠚⠀⠁⠀⠀⠙⠛⠛⠛⠛⠛⠋⠉⠁⠀⠀⠀⠀⠀⢀⠀⠀</pre>
+  <div class="page">
+    <aside class="side-profile" id="side-profile" style="display:none;">
+      <div class="side-avatar-wrap">
+        <img id="side-avatar" class="side-avatar" alt="">
+        <img id="side-decoration" class="side-decoration" alt="" style="display:none;">
+      </div>
+      <div class="side-name" id="side-name"></div>
+      <div class="side-status" id="side-status"><span class="side-status-dot" id="side-status-dot"></span><span id="side-status-text"></span></div>
+      <p class="side-bio" id="side-bio" style="display:none;"></p>
+      <div class="side-activity" id="side-spotify" style="display:none;">
+        <img id="side-spotify-art" class="side-activity-art" alt="">
+        <div class="side-activity-body">
+          <div class="side-activity-label">Listening to Spotify</div>
+          <div class="side-activity-title" id="side-spotify-title"></div>
+          <div class="side-activity-sub" id="side-spotify-sub"></div>
+        </div>
+      </div>
+      <div class="side-activity" id="side-game" style="display:none;">
+        <img id="side-game-art" class="side-activity-art" alt="">
+        <div class="side-activity-body">
+          <div class="side-activity-label">Playing</div>
+          <div class="side-activity-title" id="side-game-title"></div>
+          <div class="side-activity-sub" id="side-game-sub"></div>
+        </div>
+      </div>
+    </aside>
   <div class="frame">
     <div class="mark">
       <div class="mark-left">
         <span class="mark-name">WAVELENGTH</span>
         <span class="mark-status"><span class="dot"></span>ONLINE</span>
-      </div>
-      <div class="profile" id="profile" style="display:none;">
-        <img id="profile-avatar" alt="">
-        <span class="profile-name" id="profile-name"></span>
       </div>
     </div>
 
@@ -385,13 +517,14 @@
             <span class="invite-name">Wraithcord</span>
           </div>
           <p class="invite-desc">A personal Discord client mod, forked from Equicord — 300+ plugins plus a few of my own.</p>
-          <a class="invite-btn" href="https://github.com/kelcum/Wraithcord/releases/download/v1.0.0-wraithcord/WraithcordSetup.exe" target="_blank" rel="noopener">Download Installer</a>
+          <a class="invite-btn" href="https://github.com/kelcum/Wraithcord/releases/latest/download/WraithcordSetup.exe" target="_blank" rel="noopener">Download Installer</a>
         </div>
       </div>
       <a class="invite-contact" href="https://discord.com/users/195516525631897600" target="_blank" rel="noopener">Questions? Message @kochajacy on Discord →</a>
     </div>
 
     <footer>k3 / kochajacy</footer>
+  </div>
   </div>
 
 <script>
@@ -439,15 +572,79 @@ const listenBtn = document.getElementById("listen-btn");
 const listenBtnText = document.getElementById("listen-btn-text");
 const lyricsBox = document.getElementById("lyrics");
 const lyricsLines = document.getElementById("lyrics-lines");
-const profileBox = document.getElementById("profile");
-const profileAvatar = document.getElementById("profile-avatar");
-const profileName = document.getElementById("profile-name");
+const sideProfile = document.getElementById("side-profile");
+const sideAvatar = document.getElementById("side-avatar");
+const sideDecoration = document.getElementById("side-decoration");
+const sideName = document.getElementById("side-name");
+const sideStatusDot = document.getElementById("side-status-dot");
+const sideStatusText = document.getElementById("side-status-text");
+const sideBio = document.getElementById("side-bio");
+const sideSpotify = document.getElementById("side-spotify");
+const sideSpotifyArt = document.getElementById("side-spotify-art");
+const sideSpotifyTitle = document.getElementById("side-spotify-title");
+const sideSpotifySub = document.getElementById("side-spotify-sub");
+const sideGame = document.getElementById("side-game");
+const sideGameArt = document.getElementById("side-game-art");
+const sideGameTitle = document.getElementById("side-game-title");
+const sideGameSub = document.getElementById("side-game-sub");
+
+const STATUS_COLORS = {
+  online: "#3BA55D",
+  idle: "#FAA61A",
+  dnd: "#ED4245",
+  offline: "#5E7996",
+};
 
 let liveElapsed = 0;
 let liveDuration = 0;
 let isPlaying = false;
 let currentLyrics = null;
-let profileLoaded = false;
+let profileStaticLoaded = false;
+
+function renderOwnerProfile(owner) {
+  if (!owner) {
+    sideProfile.style.display = "none";
+    return;
+  }
+  sideProfile.style.display = "flex";
+
+  if (!profileStaticLoaded) {
+    profileStaticLoaded = true;
+    sideAvatar.src = owner.avatar;
+    sideName.textContent = owner.name;
+    if (owner.bio) {
+      sideBio.textContent = owner.bio;
+      sideBio.style.display = "block";
+    }
+    if (owner.decoration) {
+      sideDecoration.src = owner.decoration;
+      sideDecoration.style.display = "block";
+    }
+  }
+
+  const statusColor = STATUS_COLORS[owner.status] || STATUS_COLORS.offline;
+  sideStatusDot.style.background = statusColor;
+  sideStatusText.textContent = owner.status || "offline";
+
+  if (owner.spotify) {
+    sideSpotify.style.display = "flex";
+    if (owner.spotify.album_art) sideSpotifyArt.src = owner.spotify.album_art;
+    sideSpotifyTitle.textContent = owner.spotify.title || "";
+    sideSpotifySub.textContent = owner.spotify.artist || "";
+  } else {
+    sideSpotify.style.display = "none";
+  }
+
+  if (owner.activity) {
+    sideGame.style.display = "flex";
+    if (owner.activity.image) { sideGameArt.src = owner.activity.image; sideGameArt.style.display = "block"; }
+    else { sideGameArt.style.display = "none"; }
+    sideGameTitle.textContent = owner.activity.name || "";
+    sideGameSub.textContent = owner.activity.details || "";
+  } else {
+    sideGame.style.display = "none";
+  }
+}
 
 function fmt(seconds) {
   seconds = Math.max(0, Math.floor(seconds || 0));
@@ -516,12 +713,7 @@ async function pollNowPlaying() {
     currentLyrics = data.lyrics || null;
     renderTick();
 
-    if (!profileLoaded && data.owner) {
-      profileLoaded = true;
-      profileAvatar.src = data.owner.avatar;
-      profileName.textContent = data.owner.name;
-      profileBox.style.display = "flex";
-    }
+    renderOwnerProfile(data.owner);
   } catch (e) {
     npTrack.textContent = "Status unavailable.";
     npTrack.classList.add("idle");
