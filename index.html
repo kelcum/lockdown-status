@@ -115,36 +115,47 @@
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 960px;
+    max-width: 1000px;
     display: flex;
     align-items: flex-start;
     gap: 28px;
   }
 
-  /* ── Profile sidebar ── */
+  /* ── Profile sidebar: banner + overlapping avatar, like a Discord popout ── */
   .side-profile {
-    width: 220px;
+    width: 268px;
     flex-shrink: 0;
     position: sticky;
     top: 32px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
     border: 1px solid var(--border);
     background: var(--bg-elevated);
     border-radius: 12px;
-    padding: 20px;
+    overflow: hidden;
+  }
+  .side-banner {
+    position: relative;
+    height: 92px;
+    background-color: var(--accent-deep);
+    background-size: cover;
+    background-position: center;
   }
   .side-avatar-wrap {
-    position: relative;
-    width: 64px;
-    height: 64px;
-    margin-bottom: 2px;
+    position: absolute;
+    left: 18px;
+    bottom: -34px;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: var(--bg-elevated);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .side-avatar {
-    width: 64px;
-    height: 64px;
+    width: 68px;
+    height: 68px;
     border-radius: 50%;
     display: block;
     background: var(--track-bg);
@@ -153,16 +164,23 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 84px;
-    height: 84px;
+    width: 92px;
+    height: 92px;
     transform: translate(-50%, -50%);
     pointer-events: none;
+  }
+  .side-body {
+    padding: 44px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
   .side-name {
     font-family: "Big Shoulders Display", ui-sans-serif, sans-serif;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 20px;
     color: var(--text);
+    line-height: 1.1;
   }
   .side-status {
     display: flex;
@@ -172,6 +190,7 @@
     letter-spacing: 0.04em;
     color: var(--text-dim);
     text-transform: capitalize;
+    margin-top: 4px;
   }
   .side-status-dot {
     width: 7px;
@@ -182,22 +201,39 @@
   }
   .side-bio {
     font-size: 12.5px;
-    line-height: 1.5;
+    line-height: 1.55;
     color: var(--text-dim);
-    margin: 2px 0 0;
+    margin: 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .side-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .side-meta-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+  }
+  .side-meta-value {
+    font-size: 12.5px;
+    color: var(--text);
   }
   .side-activity {
     display: flex;
     align-items: center;
     gap: 10px;
     width: 100%;
-    margin-top: 4px;
     padding-top: 12px;
     border-top: 1px solid var(--border);
   }
   .side-activity-art {
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     border-radius: 6px;
     background: var(--track-bg);
     flex-shrink: 0;
@@ -228,14 +264,7 @@
 
   @media (max-width: 860px) {
     .page { flex-direction: column; }
-    .side-profile {
-      width: 100%;
-      position: static;
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .side-bio, .side-activity { width: 100%; }
+    .side-profile { width: 100%; position: static; }
   }
 
   /* ── Lockdown quote (secondary, still themed to this palette) ── */
@@ -438,27 +467,35 @@
 ⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣐⣾⡿⡟⢶⠾⢋⢹⠿⢿⣿⣿⣷⣦⡈⠙⠛⠿⠿⢿⣶⣶⣶⣶⣶⢶⠟⠚⠀⠁⠀⠀⠙⠛⠛⠛⠛⠛⠋⠉⠁⠀⠀⠀⠀⠀⢀⠀⠀</pre>
   <div class="page">
     <aside class="side-profile" id="side-profile" style="display:none;">
-      <div class="side-avatar-wrap">
-        <img id="side-avatar" class="side-avatar" alt="">
-        <img id="side-decoration" class="side-decoration" alt="" style="display:none;">
-      </div>
-      <div class="side-name" id="side-name"></div>
-      <div class="side-status" id="side-status"><span class="side-status-dot" id="side-status-dot"></span><span id="side-status-text"></span></div>
-      <p class="side-bio" id="side-bio" style="display:none;"></p>
-      <div class="side-activity" id="side-spotify" style="display:none;">
-        <img id="side-spotify-art" class="side-activity-art" alt="">
-        <div class="side-activity-body">
-          <div class="side-activity-label">Listening to Spotify</div>
-          <div class="side-activity-title" id="side-spotify-title"></div>
-          <div class="side-activity-sub" id="side-spotify-sub"></div>
+      <div class="side-banner" id="side-banner">
+        <div class="side-avatar-wrap">
+          <img id="side-avatar" class="side-avatar" alt="">
+          <img id="side-decoration" class="side-decoration" alt="" style="display:none;">
         </div>
       </div>
-      <div class="side-activity" id="side-game" style="display:none;">
-        <img id="side-game-art" class="side-activity-art" alt="">
-        <div class="side-activity-body">
-          <div class="side-activity-label">Playing</div>
-          <div class="side-activity-title" id="side-game-title"></div>
-          <div class="side-activity-sub" id="side-game-sub"></div>
+      <div class="side-body">
+        <div class="side-name" id="side-name"></div>
+        <div class="side-status" id="side-status"><span class="side-status-dot" id="side-status-dot"></span><span id="side-status-text"></span></div>
+        <p class="side-bio" id="side-bio" style="display:none;"></p>
+        <div class="side-meta" id="side-meta" style="display:none;">
+          <span class="side-meta-label">MEMBER SINCE</span>
+          <span class="side-meta-value" id="side-created"></span>
+        </div>
+        <div class="side-activity" id="side-spotify" style="display:none;">
+          <img id="side-spotify-art" class="side-activity-art" alt="">
+          <div class="side-activity-body">
+            <div class="side-activity-label">Listening to Spotify</div>
+            <div class="side-activity-title" id="side-spotify-title"></div>
+            <div class="side-activity-sub" id="side-spotify-sub"></div>
+          </div>
+        </div>
+        <div class="side-activity" id="side-game" style="display:none;">
+          <img id="side-game-art" class="side-activity-art" alt="">
+          <div class="side-activity-body">
+            <div class="side-activity-label">Playing</div>
+            <div class="side-activity-title" id="side-game-title"></div>
+            <div class="side-activity-sub" id="side-game-sub"></div>
+          </div>
         </div>
       </div>
     </aside>
@@ -573,12 +610,15 @@ const listenBtnText = document.getElementById("listen-btn-text");
 const lyricsBox = document.getElementById("lyrics");
 const lyricsLines = document.getElementById("lyrics-lines");
 const sideProfile = document.getElementById("side-profile");
+const sideBanner = document.getElementById("side-banner");
 const sideAvatar = document.getElementById("side-avatar");
 const sideDecoration = document.getElementById("side-decoration");
 const sideName = document.getElementById("side-name");
 const sideStatusDot = document.getElementById("side-status-dot");
 const sideStatusText = document.getElementById("side-status-text");
 const sideBio = document.getElementById("side-bio");
+const sideMeta = document.getElementById("side-meta");
+const sideCreated = document.getElementById("side-created");
 const sideSpotify = document.getElementById("side-spotify");
 const sideSpotifyArt = document.getElementById("side-spotify-art");
 const sideSpotifyTitle = document.getElementById("side-spotify-title");
@@ -619,6 +659,16 @@ function renderOwnerProfile(owner) {
     if (owner.decoration) {
       sideDecoration.src = owner.decoration;
       sideDecoration.style.display = "block";
+    }
+    if (owner.banner) {
+      sideBanner.style.backgroundImage = `url("${owner.banner}")`;
+    } else if (owner.accent_color) {
+      sideBanner.style.backgroundColor = owner.accent_color;
+    }
+    if (owner.created_at) {
+      const d = new Date(owner.created_at * 1000);
+      sideCreated.textContent = d.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+      sideMeta.style.display = "flex";
     }
   }
 
